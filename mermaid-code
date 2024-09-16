@@ -1,0 +1,88 @@
+graph TD;
+    %% --- INICIO: Menu Principal ---
+    A[Menu Principal] --> B{Que desea hacer el usuario?};
+    
+    %% Opciones del Menu Principal
+    B -->|Gestion de Medicacion| C[Lista de Pacientes para Gestion de Medicacion];
+    B -->|Registrar Paciente| D[Formulario Registro de Paciente];
+    B -->|Editar Paciente| E[Lista de Pacientes para Edicion];
+
+    %% --- Registro de Paciente ---
+    D --> F{Formulario Completo?};
+    F -->|No| G[Mostrar Error de Validacion];
+    F -->|Si| H[Confirmacion de Registro Completado];
+    G --> D;
+    H --> I{Que desea hacer el usuario?};
+    I -->|Registrar otro Paciente| D;
+    I -->|Volver al Menu Principal| A;
+
+    %% --- Edicion de Paciente ---
+    E --> J[Busqueda de Pacientes];
+    J --> K{Seleccionar Paciente para Edicion};
+    K --> L[Formulario Edicion de Paciente];
+    L --> M{Formulario Completo?};
+    M -->|No| N[Mostrar Error de Validacion];
+    M -->|Si| O[Guardar Cambios];
+    N --> L;
+    O --> P[Confirmacion de Edicion Completada];
+    P --> Q{Que desea hacer el usuario?};
+    Q -->|Editar otro Paciente| E;
+    Q -->|Volver al Menu Principal| A;
+
+    %% --- Gestion de Medicacion ---
+    C --> R[Busqueda de Pacientes];
+    R --> S{Seleccionar Paciente para Gestion de Medicacion};
+    S --> T[Lista de Medicamentos del Paciente];
+    T --> U{Que desea hacer el usuario?};
+    U -->|Anadir Medicamento| V[Formulario Anadir Medicamento];
+    U -->|Editar Medicamento| W[Formulario Editar Medicamento];
+    U -->|Eliminar Medicamento| X[Confirmacion de Eliminacion de Medicamento];
+
+    %% --- Anadir o Editar Medicamento ---
+    V --> Y{Formulario Medicamento Completo?};
+    Y -->|No| Z[Mostrar Error de Validacion];
+    Y -->|Si| AA[Posologia Definida?];
+    Z --> V;
+    
+    W --> AB{Formulario Medicamento Completo?};
+    AB -->|No| AC[Mostrar Error de Validacion];
+    AB -->|Si| AD[Posologia Definida?];
+    AC --> W;
+
+    %% --- Decisión sobre la Posología (Opcional) ---
+    AA -->|No| AM[Guardar Medicamento sin Posologia] --> T;
+    AA -->|Si| AE[Boton Definir Posologia];
+    
+    AD -->|No| AM[Guardar Medicamento sin Posologia] --> T;
+    AD -->|Si| AI[Boton Definir Posologia];
+
+    %% --- Definir Posologia ---
+    AE --> AF[Formulario Posologia];
+    AF --> AG{Posologia Completa?};
+    AG -->|No| AH[Mostrar Error de Validacion];
+    AG -->|Si| AI[Guardar Posologia y Volver al Medicamento];
+    AH --> AF;
+
+    AI --> AJ[Formulario Posologia];
+    AJ --> AK{Posologia Completa?};
+    AK -->|No| AL[Mostrar Error de Validacion];
+    AK -->|Si| AM[Guardar Posologia y Volver al Medicamento];
+    AL --> AJ;
+
+    %% --- Eliminar Horas de Posologia ---
+    AF -->|Eliminar Hora| AN[Eliminar Hora de Posologia] --> AF;
+    AJ -->|Eliminar Hora| AO[Eliminar Hora de Posologia] --> AJ;
+
+    %% --- Guardar Medicamento ---
+    AI --> AP[Guardar Medicamento y Volver a la Lista];
+    AM --> AP;
+    AP --> T;
+
+    %% --- Eliminar Medicamento ---
+    X --> AQ[Eliminar Medicamento];
+    AQ --> T;
+
+    %% --- Finalizacion ---
+    T --> AR{Que desea hacer el usuario?};
+    AR -->|Volver al Menu Principal| A;
+    AR -->|Seleccionar otro Paciente| C;
