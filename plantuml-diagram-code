@@ -1,0 +1,75 @@
+@startuml
+title Flujo del Programa - Gestión de Pacientes y Medicación
+
+' --- INICIO: Menu Principal ---
+:Usuario: --> (Menu Principal)
+(Menu Principal) --> (Gestion de Medicacion) : Seleccionar "Gestion de Medicacion"
+(Menu Principal) --> (Formulario Registro de Paciente) : Seleccionar "Registrar Paciente"
+(Menu Principal) --> (Lista de Pacientes para Edicion) : Seleccionar "Editar Paciente"
+
+' --- Registro de Paciente ---
+(Formulario Registro de Paciente) --> (Formulario Completo?)
+(Formulario Completo?) --> (Mostrar Error de Validacion) : No
+(Formulario Completo?) --> (Confirmacion de Registro Completado) : Si
+(Mostrar Error de Validacion) --> (Formulario Registro de Paciente)
+(Confirmacion de Registro Completado) --> (Que desea hacer?) : ¿Registrar otro Paciente o Volver al Menú Principal?
+(Que desea hacer?) --> (Formulario Registro de Paciente) : Registrar otro Paciente
+(Que desea hacer?) --> (Menu Principal) : Volver al Menu Principal
+
+' --- Edicion de Paciente ---
+(Lista de Pacientes para Edicion) --> (Busqueda de Pacientes)
+(Busqueda de Pacientes) --> (Seleccionar Paciente para Edicion)
+(Seleccionar Paciente para Edicion) --> (Formulario Edicion de Paciente)
+(Formulario Edicion de Paciente) --> (Formulario Completo? : Si/No)
+(Formulario Completo?) --> (Mostrar Error de Validacion) : No
+(Formulario Completo?) --> (Guardar Cambios) : Si
+(Mostrar Error de Validacion) --> (Formulario Edicion de Paciente)
+(Guardar Cambios) --> (Confirmacion de Edicion Completada)
+(Confirmacion de Edicion Completada) --> (Que desea hacer?) : ¿Editar otro Paciente, Gestionar Medicación o Volver al Menú Principal?
+(Que desea hacer?) --> (Lista de Pacientes para Edicion) : Editar otro Paciente
+(Que desea hacer?) --> (Gestion de Medicacion) : Ir a Gestion de Medicacion
+(Que desea hacer?) --> (Menu Principal) : Volver al Menu Principal
+
+' --- Gestion de Medicacion ---
+(Gestion de Medicacion) --> (Busqueda de Pacientes para Medicacion)
+(Busqueda de Pacientes para Medicacion) --> (Seleccionar Paciente para Gestion de Medicacion)
+(Seleccionar Paciente para Gestion de Medicacion) --> (Lista de Medicamentos del Paciente)
+(Lista de Medicamentos del Paciente) --> (Que desea hacer?) : Seleccionar accion
+
+' --- Anadir o Editar Medicamento ---
+(Que desea hacer?) --> (Formulario Anadir Medicamento) : Anadir Medicamento
+(Que desea hacer?) --> (Formulario Editar Medicamento) : Editar Medicamento
+(Que desea hacer?) --> (Confirmacion de Eliminacion de Medicamento) : Eliminar Medicamento
+(Formulario Anadir Medicamento) --> (Formulario Medicamento Completo?) 
+(Formulario Editar Medicamento) --> (Formulario Medicamento Completo?) 
+(Formulario Medicamento Completo?) --> (Mostrar Error de Validacion) : No
+(Formulario Medicamento Completo?) --> (Posologia Definida?) : Si
+(Mostrar Error de Validacion) --> (Formulario Anadir Medicamento) 
+(Mostrar Error de Validacion) --> (Formulario Editar Medicamento)
+
+' --- Decisión sobre la Posología ---
+(Posologia Definida?) --> (Guardar Medicamento sin Posologia) : No
+(Posologia Definida?) --> (Boton Definir Posologia) : Si
+
+' --- Definir Posologia ---
+(Boton Definir Posologia) --> (Formulario Posologia)
+(Formulario Posologia) --> (Posologia Completa?)
+(Posologia Completa?) --> (Mostrar Error de Validacion) : No
+(Posologia Completa?) --> (Guardar Posologia y Volver al Medicamento) : Si
+(Mostrar Error de Validacion) --> (Formulario Posologia)
+(Formulario Posologia) --> (Eliminar Hora de Posologia) : Eliminar Hora
+
+' --- Guardar Medicamento ---
+(Guardar Posologia y Volver al Medicamento) --> (Guardar Medicamento y Volver a la Lista)
+(Guardar Medicamento sin Posologia) --> (Guardar Medicamento y Volver a la Lista)
+
+' --- Eliminar Medicamento ---
+(Confirmacion de Eliminacion de Medicamento) --> (Eliminar Medicamento)
+
+' --- Finalizacion ---
+(Guardar Medicamento y Volver a la Lista) --> (Que desea hacer?)
+(Eliminar Medicamento) --> (Que desea hacer?)
+(Que desea hacer?) --> (Volver al Menu Principal) : Volver al Menu Principal
+(Que desea hacer?) --> (Seleccionar otro Paciente) : Seleccionar otro Paciente
+
+@enduml
